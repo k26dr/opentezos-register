@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>OpenTezos Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+</head>
+
+<body class="container">
+
+<div class="text-center">
+    <img src="img/logo.png">
+</div>
+<h1 class="text-center">Register Your Public Key</h1>
+
+<div class="form-group mt-5">
+    <label>Tezos Public Key:</label>
+    <input class="form-control" id="pubkey">
+</div>
+
+<div class="form-group">
+    <button id="register-btn" class="btn btn-success" onclick="queryBalance()">Register</button>
+</div>
+
+<hr>
+
+<p id="snapshot-response" class="lead"></p>
+
+<script>
+
+function queryBalance () {
+    document.getElementById('register-btn').disabled = true;
+    var pubkey = document.getElementById('pubkey').value.trim();
+    fetch(`//localhost:5000/register/${pubkey}`)
+        .then(function (response) {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            return response.text()
+        })
+        .then(function (balance) {
+            var text = `You're registered! You will receive <span class="text-info">${balance}</span> OpenTezos in the genesis block`;
+            document.getElementById('snapshot-response').innerHTML = text;
+            document.getElementById('register-btn').disabled = false;
+        })
+        .catch(function (error) {
+            var text = `<span class="text-danger">Whoops! Something's wrong. Did you enter a valid key? (Support available on <a href="https://t.me/OpenTezos">Telegram</a>)</span>`;
+            document.getElementById('snapshot-response').innerHTML = text;
+            document.getElementById('register-btn').disabled = false;
+        });
+}
+</script>
+
+</body>
+
+</html>
