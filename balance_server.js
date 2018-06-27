@@ -4,6 +4,7 @@ const https = require('https');
 const app = express()
 const morgan = require('morgan')
 const rp = require('request-promise');
+const path = require('path');
 
 // Logging
 app.use(morgan('combined'))
@@ -32,8 +33,16 @@ app.get('/register/:pubkey', (req, res) => {
         });
 });
 
+app.get('/', (req, res) => {
+   res.sendFile(path.join(__dirname, "index.html"));
+});
+
+app.get('/img/:file', (req, res) => {
+   res.sendFile(path.join(__dirname, "img", req.params.file));
+});
+
 //https.createServer({
 //    key: fs.readFileSync('certs/privkey.pem'),
 //    cert: fs.readFileSync('certs/cert.pem')
-//}, app).listen(5000, '0.0.0.0');
+//}, app).listen(80, '0.0.0.0');
 app.listen(5000)
