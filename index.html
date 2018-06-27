@@ -32,7 +32,7 @@
 function queryBalance () {
     document.getElementById('register-btn').disabled = true;
     var pubkey = document.getElementById('pubkey').value.trim();
-    fetch(`https://opentezosregister.liberteos.com/register/${pubkey}`)
+    fetch(`https://register.opentezos.com/register/${pubkey}`)
         .then(function (response) {
             if (!response.ok) {
                 throw Error(response.statusText);
