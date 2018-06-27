@@ -1,6 +1,7 @@
 var fs = require('fs');
 const express = require('express')
 const https = require('https');
+const http = require('http');
 const app = express()
 const morgan = require('morgan')
 const rp = require('request-promise');
@@ -42,6 +43,11 @@ app.get('/img/:file', (req, res) => {
 });
 
 https.createServer({
-    key: fs.readFileSync('certs/privkey1.pem'),
-    cert: fs.readFileSync('certs/cert1.pem')
+    key: fs.readFileSync('certs/privkey.pem'),
+    cert: fs.readFileSync('certs/cert.pem')
 }, app).listen(443, '0.0.0.0');
+
+http.createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+}).listen(80);
