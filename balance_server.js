@@ -41,8 +41,7 @@ app.get('/img/:file', (req, res) => {
    res.sendFile(path.join(__dirname, "img", req.params.file));
 });
 
-//https.createServer({
-//    key: fs.readFileSync('certs/privkey.pem'),
-//    cert: fs.readFileSync('certs/cert.pem')
-//}, app).listen(80, '0.0.0.0');
-app.listen(5000)
+https.createServer({
+    key: fs.readFileSync('certs/privkey1.pem'),
+    cert: fs.readFileSync('certs/cert1.pem')
+}, app).listen(443, '0.0.0.0');
